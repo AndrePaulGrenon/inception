@@ -3,11 +3,11 @@ FROM    alpine:3.17
 RUN     apk update && apk upgrade \
         && apk add --update dumb-init mariadb mariadb-common mariadb-client mariadb-server-utils
 
-EXPOSE  3306
-
-COPY    ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY    ./conf/mariadb.conf /etc/mysql/mariadb.conf
 COPY    ./tools /var/www/
 
-RUN     service mysql start && mysql < /var/www/initial_db.sql && rm -f /var/www/initial_db.sql;
+RUN     service mysql start && mysql < /var/www/db_set.sql && rm -f /var/www/db_set.sql;
+
+EXPOSE  3306
 
 CMD ["mysqld"]
